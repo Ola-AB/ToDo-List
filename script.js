@@ -34,6 +34,8 @@ const prepareDOMEvents = () => {
 	ADD_BTN.addEventListener("click", addNewTask);
 	TODO_INPUT.addEventListener("keyup", enterCheck);
 	UL_LIST.addEventListener("click", checkClick);
+	ADD_POPUP_BTN.addEventListener("click", changeTodo);
+	CLOSE_TODO_BTN.addEventListener("click", closePopup);
 };
 
 const addNewTask = () => {
@@ -88,20 +90,43 @@ const checkClick = (e) => {
 
 			console.log("ok");
 		} else if (e.target.closest("button").classList.contains("edit")) {
-			console.log("edit");
+			editTask(e);
 		} else if (e.target.closest("button").classList.contains("delete")) {
 			deleteTask(e);
 		}
 	}
 };
 
+const editTask = (e) => {
+	const oldTodo = e.target.closest("li").id;
+	EDITED_TODO = document.getElementById(oldTodo);
+	POPUP_INPUT.value = EDITED_TODO.firstChild.textContent;
+
+	POPUP.style.display = "flex";
+};
+
+const changeTodo = () => {
+	if (POPUP_INPUT.value !== "") {
+		EDITED_TODO.firstChild.textContent = POPUP_INPUT.value;
+		POPUP.style.display = "none";
+		POPUP_INFO.innerText = "";
+	} else {
+		POPUP_INFO.innerText = "Musisz podać treść zadania!";
+	}
+};
+
 const deleteTask = (e) => {
-	const dleteTodo = e.target.closest('li');
+	const dleteTodo = e.target.closest("li");
 	dleteTodo.remove();
 
-	if(ALL_TASKS.length === 0) {
-		ALERT_INFO.innerText = 'Brak zadań na liście.';
+	if (ALL_TASKS.length === 0) {
+		ALERT_INFO.innerText = "Brak zadań na liście.";
 	}
+};
+
+closePopup = () => {
+	POPUP.style.display = "none";
+	POPUP_INFO.innerText = "";
 };
 
 document.addEventListener("DOMContentLoaded", main);
