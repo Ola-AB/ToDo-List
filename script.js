@@ -33,6 +33,7 @@ const prepareDOMElements = () => {
 const prepareDOMEvents = () => {
 	ADD_BTN.addEventListener("click", addNewTask);
 	TODO_INPUT.addEventListener("keyup", enterCheck);
+	UL_LIST.addEventListener("click", checkClick);
 };
 
 const addNewTask = () => {
@@ -45,14 +46,61 @@ const addNewTask = () => {
 
 		TODO_INPUT.value = "";
 		ALERT_INFO.innerText = "";
+		createToolsArea();
 	} else {
 		ALERT_INFO.innerText = "Wpisz treść zadania!";
 	}
 };
 
-const enterCheck = e => {
-	if (e.key === 'Enter') {
+const enterCheck = (e) => {
+	if (e.key === "Enter") {
 		addNewTask();
+	}
+};
+
+const createToolsArea = () => {
+	const toolsPanel = document.createElement("div");
+	toolsPanel.classList.add("tools");
+	NEW_TASK.appendChild(toolsPanel);
+
+	const completeBtn = document.createElement("button");
+	completeBtn.classList.add("complete");
+	completeBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+
+	const editBtn = document.createElement("button");
+	editBtn.classList.add("edit");
+	editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+
+	const deleteBtn = document.createElement("button");
+	deleteBtn.classList.add("delete");
+	deleteBtn.innerHTML = '<i class="fa-solid fa-x"></i>';
+
+	toolsPanel.appendChild(completeBtn);
+	toolsPanel.appendChild(editBtn);
+	toolsPanel.appendChild(deleteBtn);
+};
+
+const checkClick = (e) => {
+	if (e.target.classList.value !== "") {
+		if (e.target.closest("button").classList.contains("complete")) {
+			e.target.closest("li").classList.toggle("completed");
+			e.target.closest("button").classList.toggle("completed");
+
+			console.log("ok");
+		} else if (e.target.closest("button").classList.contains("edit")) {
+			console.log("edit");
+		} else if (e.target.closest("button").classList.contains("delete")) {
+			deleteTask(e);
+		}
+	}
+};
+
+const deleteTask = (e) => {
+	const dleteTodo = e.target.closest('li');
+	dleteTodo.remove();
+
+	if(ALL_TASKS.length === 0) {
+		ALERT_INFO.innerText = 'Brak zadań na liście.';
 	}
 };
 
