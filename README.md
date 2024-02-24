@@ -22,4 +22,5 @@ LinkedIn - [Olga Burkiewicz](https://www.linkedin.com/in/olga-burkiewicz-990058a
 
 **Przegląd:**
 
+https://github.com/Ola-AB/ToDo-List/assets/142878084/e2e115a4-ebed-4c0a-9a5f-5bc8a3e998ca
 
